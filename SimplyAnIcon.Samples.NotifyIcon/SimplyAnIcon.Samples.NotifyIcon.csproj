@@ -59,14 +59,17 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Common, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Common.0.2.1\lib\net461\SimplyAnIcon.Common.dll</HintPath>
+    <Reference Include="PresentationFramework.Aero">
+      <Private>True</Private>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.0.3.1\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Common.0.3.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.3.1\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Plugins, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.0.4.0\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
+    </Reference>
+    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.4.0\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

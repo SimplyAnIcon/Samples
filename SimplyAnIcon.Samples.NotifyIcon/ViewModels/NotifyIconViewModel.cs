@@ -15,7 +15,8 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
     {
         private bool _isVisible;
         private readonly IIconLogicService _logic;
-        
+        private bool _stayOpen;
+
         public FastObservableCollection<MenuItemViewModel> Items { get; } = new FastObservableCollection<MenuItemViewModel>();
         public bool IsVisible
         {
@@ -32,6 +33,12 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         public string IconSource => "/cool.ico";
         public string IconName => IsVisible ? "SimplyAnIcon" : "SimplyAnIcon (Updating ...)";
 
+        public bool StayOpen
+        {
+            get => _stayOpen;
+            set => Set(ref _stayOpen, value);
+        }
+
         public NotifyIconViewModel(IIconLogicService logic)
         {
             _logic = logic;
@@ -44,6 +51,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         private void UpdateIcon()
         {
             IsVisible = false;
+            Items.ToList().ForEach(x => x.OnForceMenuOpen -= OnForceMenuOpen);
             Items.Clear();
 
             _logic.UpdateIcon();
@@ -51,7 +59,9 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 
         private void LogicOnMenuBuilt(object sender, IEnumerable<MenuItemViewModel> e)
         {
-            Items.AddItems(e.ToList());
+            var addedList = e.ToList();
+            addedList.ForEach(x => x.OnForceMenuOpen += OnForceMenuOpen);
+            Items.AddItems(addedList);
             Items.Add(new SeparatorMenuItemViewModel());
 
             Items.Add(new MenuItemViewModel
@@ -84,7 +94,12 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 
             IsVisible = true;
         }
-        
+
+        private void OnForceMenuOpen(object sender, bool e)
+        {
+            StayOpen = e;
+        }
+
         private void KillIcon()
         {
             IsVisible = false;
