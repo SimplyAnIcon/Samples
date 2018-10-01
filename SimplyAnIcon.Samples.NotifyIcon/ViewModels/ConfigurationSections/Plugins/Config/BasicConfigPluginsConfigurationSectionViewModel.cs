@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Windows.Input;
 using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
+using GalaSoft.MvvmLight.CommandWpf;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.V1.Settings;
 using SimplyAnIcon.Plugins.Wpf.Util;
@@ -10,6 +13,18 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugi
     public class BasicConfigPluginsConfigurationSectionViewModel : AbstractConfigPluginsConfigurationSectionViewModel
     {
         private readonly IResolverService _resolverService;
+        private ICommand _saveCommand;
+        public ICommand SaveCommand => _saveCommand = _saveCommand ?? new RelayCommand(OnSave, CanSave);
+
+        private bool CanSave()
+        {
+            return Items.All(x => x.IsValid());
+        }
+
+        private void OnSave()
+        {
+            Items.ToList().ForEach(x => Plugin.SetConfigurationValue(x.Setting.Key, x.ResultValue));
+        }
 
         public FastObservableCollection<AbstractConfigurationItemViewModel> Items { get; } = new FastObservableCollection<AbstractConfigurationItemViewModel>();
 
@@ -23,35 +38,34 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugi
             OnInternalInit(plugin);
             foreach (var it in plugin.ConfigurationItems)
             {
-                var getFunc = (Func<object>)(() => plugin.GetConfigurationValue(it.Key));
-                var setFunc = (Action<object>)(x => plugin.SetConfigurationValue(it.Key, x));
+                var defaultValue = plugin.GetConfigurationValue(it.Key);
                 switch (it)
                 {
                     case BoolSettingValue boolIt:
                     {
                         var itVm = _resolverService.Resolve<BoolConfigurationItemViewModel>();
-                        itVm.OnInit(boolIt, getFunc, setFunc);
+                        itVm.OnInit(boolIt, defaultValue);
                         Items.Add(itVm);
                         break;
                     }
                     case StringListSettingValue listIt:
                     {
                         var itVm = _resolverService.Resolve<StringListConfigurationItemViewModel>();
-                        itVm.OnInit(listIt, getFunc, setFunc);
+                        itVm.OnInit(listIt, defaultValue);
                         Items.Add(itVm);
                         break;
                     }
                     case StringSettingValue strIt:
                     {
                         var itVm = _resolverService.Resolve<StringConfigurationItemViewModel>();
-                        itVm.OnInit(strIt, getFunc, setFunc);
+                        itVm.OnInit(strIt, defaultValue);
                         Items.Add(itVm);
                         break;
                     }
                     case IntSettingValue intIt:
                     {
                         var itVm = _resolverService.Resolve<IntConfigurationItemViewModel>();
-                        itVm.OnInit(intIt, getFunc, setFunc);
+                        itVm.OnInit(intIt, defaultValue);
                         Items.Add(itVm);
                         break;
                     }

@@ -65,11 +65,11 @@
     <Reference Include="SimplyAnIcon.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplyAnIcon.Common.0.3.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.0.4.0\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Plugins, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.0.5.0\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.4.0\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.5.0\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -98,6 +98,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFToggleSwitch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFToggleSwitch.1.0.0\lib\net45\WPFToggleSwitch.dll</HintPath>
+    </Reference>
+    <Reference Include="Y2D.CustomControls, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Y2D.CustomControls.1.5.1\lib\net451\Y2D.CustomControls.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

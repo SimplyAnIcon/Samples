@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behaviors="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.Behaviors"
-        xmlns:viewModels="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.ViewModels"
         xmlns:config="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugins.Config"
         xmlns:configurationSections="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections"
         xmlns:plugins="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugins"
         xmlns:wpfToggleSwitch="clr-namespace:WPFToggleSwitch;assembly=WPFToggleSwitch"
         xmlns:configurationItems="clr-namespace:SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems"
-        Title="Options" Height="350" Width="525" Icon="/cool.ico">
+        xmlns:controls="clr-namespace:Y2D.CustomControls.Controls;assembly=Y2D.CustomControls"
+        Title="Options" Height="500" Width="700" Icon="/cool.ico">
     <DockPanel>
         <ScrollViewer Width="200" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <TreeView Margin="5" DockPanel.Dock="Left" ItemsSource="{Binding Sections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
@@ -29,36 +29,45 @@
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type config:AbstractConfigPluginsConfigurationSectionViewModel}">
                         <DockPanel>
-                            <wpfToggleSwitch:ToggleSwitch DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" CheckedText="Activated" UncheckedText="Deactivated"/>
-                            <ContentControl Content="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                            <wpfToggleSwitch:ToggleSwitch IsChecked="{Binding IsActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Plugin Activated: " UncheckedText="" CheckedText=""/>
+                            <ContentControl Content="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsActivated, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type config:BasicConfigPluginsConfigurationSectionViewModel}">
                                         <DockPanel>
-                                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="BASIC" />
+                                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Configuration" />
+                                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10" Content="Save Changes" Command="{Binding SaveCommand}" />
                                             <ItemsControl ItemsSource="{Binding Items, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <ItemsControl.Resources>
                                                     <DataTemplate DataType="{x:Type configurationItems:BoolConfigurationItemViewModel}">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock>BOOL: </TextBlock>
-                                                            <TextBlock Text="{Binding Setting.Label}" />
+                                                            <CheckBox Margin="5" Content="{Binding Setting.Label}" IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                     <DataTemplate DataType="{x:Type configurationItems:StringConfigurationItemViewModel}">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock>STRING: </TextBlock>
-                                                            <TextBlock Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                            <TextBox Margin="5" VerticalAlignment="Center" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" MaxLength="{Binding Setting.MaximumLength}" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                     <DataTemplate DataType="{x:Type configurationItems:IntConfigurationItemViewModel}">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock>INT:</TextBlock>
-                                                            <TextBlock Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                            <controls:NumericUpDown Margin="5" VerticalAlignment="Center" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="75" Minimum="{Binding Setting.Minimum}"  Maximum="{Binding Setting.Maximum}"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                     <DataTemplate DataType="{x:Type configurationItems:StringListConfigurationItemViewModel}">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock>LIST:</TextBlock>
-                                                            <TextBlock Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                            <ComboBox Margin="5" VerticalAlignment="Center" ItemsSource="{Binding Setting.AvailableValues, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding Value}"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ItemsControl.Resources>

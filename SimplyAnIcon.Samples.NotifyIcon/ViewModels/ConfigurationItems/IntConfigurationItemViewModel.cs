@@ -12,9 +12,11 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems
             set => Set(ref _value, value);
         }
 
-        protected override void OnInit()
+        public override object ResultValue => Value;
+
+        protected override void OnInit(object defaultValue)
         {
-            Value = (int)GetFunc();
+            Value = (int)defaultValue;
         }
     }
 }

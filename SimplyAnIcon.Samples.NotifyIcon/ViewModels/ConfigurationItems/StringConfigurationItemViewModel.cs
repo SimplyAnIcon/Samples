@@ -9,12 +9,34 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems
         public string Value
         {
             get => _value;
-            set => Set(ref _value, value);
+            set => Set(ref _value, ApplyModifiers(value));
         }
 
-        protected override void OnInit()
+        public override bool IsValid()
         {
-            Value = (string)GetFunc();
+            if (Value.Length < Setting.MinimumLength)
+                return false;
+            return base.IsValid();
+        }
+
+        public override object ResultValue => Value;
+
+        protected override void OnInit(object defaultValue)
+        {
+            Value = ApplyModifiers((string)defaultValue);
+        }
+
+        private string ApplyModifiers(string value)
+        {
+            switch (Setting.StringType)
+            {
+                case StringSettingValue.StringTypeEnum.AllLower:
+                    return value.ToLower();
+                case StringSettingValue.StringTypeEnum.AllUpper:
+                    return value.ToUpper();
+            }
+
+            return value;
         }
     }
 }

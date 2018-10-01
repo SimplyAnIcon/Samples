@@ -8,14 +8,12 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems
     {
         public AbstractSettingValue Setting { get; private set; }
 
-        protected Func<object> GetFunc { get; private set; }
-        protected Action<object> SetFunc { get; private set; }
+        public virtual bool IsValid() => true;
+        public abstract object ResultValue { get; }
 
-        public virtual void OnInit(AbstractSettingValue setting, Func<object> getFunc, Action<object> setFunc)
+        public virtual void OnInit(AbstractSettingValue setting, object defaultValue)
         {
             Setting = setting;
-            GetFunc = getFunc;
-            SetFunc = setFunc;
         }
     }
 
@@ -23,17 +21,17 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems
     {
         public new T Setting { get; private set; }
 
-        public override void OnInit(AbstractSettingValue setting, Func<object> getFunc, Action<object> setFunc)
+        public override void OnInit(AbstractSettingValue setting, object defaultValue)
         {
-            base.OnInit(setting, getFunc, setFunc);
+            base.OnInit(setting, defaultValue);
             if (setting is T tSetting)
                 Setting = tSetting;
             else
                 throw new ArgumentException("Wrong Setting Type. Should be of type " + typeof(T).FullName,
                     nameof(setting));
-            OnInit();
+            OnInit(defaultValue);
         }
 
-        protected abstract void OnInit();
+        protected abstract void OnInit(object defaultValue);
     }
 }
