@@ -96,12 +96,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToggleSwitch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToggleSwitch.1.0.0\lib\net45\WPFToggleSwitch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Helpers\UnityInstanceResolverHelper.cs" />
     <Compile Include="Services\Interfaces\IIconLogicService.cs" />
     <Page Include="Windows\ConfigWindow.xaml">
@@ -113,6 +117,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppRegistrant.cs" />
+    <Compile Include="ViewModels\ConfigurationItems\AbstractConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationItems\IntConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationItems\StringListConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationItems\StringConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationItems\BoolConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\SpecialWpfConfigPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\BasicConfigPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\NoConfigPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\AbstractConfigPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\SpecificPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\Plugins\GeneralPluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\PluginsConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\GeneralConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSections\AboutConfigurationSectionViewModel.cs" />
+    <Compile Include="ViewModels\ConfigViewModel.cs" />
+    <Compile Include="ViewModels\IConfigurationSectionViewModel.cs" />
     <Compile Include="Windows\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -149,6 +169,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="cool.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

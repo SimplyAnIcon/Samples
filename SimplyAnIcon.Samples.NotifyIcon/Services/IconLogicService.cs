@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Com.Ericmas001.DependencyInjection.RegistrantFinders;
+using SimplyAnIcon.Common.Models;
 using SimplyAnIcon.Samples.NotifyIcon.Helpers;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Common.Services.Interfaces;
@@ -20,6 +21,12 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         private readonly List<ISimplyAWpfPlugin> _pluginWpfInstances = new List<ISimplyAWpfPlugin>();
         private readonly List<ISimplyAPlugin> _pluginInstances = new List<ISimplyAPlugin>();
         private readonly IPluginService _pluginService;
+
+        public PluginCatalog PluginsCatalog => new PluginCatalog
+        {
+            PluginInstances = _pluginInstances,
+            PluginWpfInstances = _pluginWpfInstances
+        };
         
         public event EventHandler<IEnumerable<MenuItemViewModel>> OnMenuBuilt = delegate { };
         public event EventHandler OnAppExited = delegate { };

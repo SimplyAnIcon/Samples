@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
@@ -15,6 +16,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
     {
         private bool _isVisible;
         private readonly IIconLogicService _logic;
+        private readonly IResolverService _resolverService;
         private bool _stayOpen;
 
         public FastObservableCollection<MenuItemViewModel> Items { get; } = new FastObservableCollection<MenuItemViewModel>();
@@ -39,9 +41,10 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             set => Set(ref _stayOpen, value);
         }
 
-        public NotifyIconViewModel(IIconLogicService logic)
+        public NotifyIconViewModel(IIconLogicService logic, IResolverService resolverService)
         {
             _logic = logic;
+            _resolverService = resolverService;
             _logic.OnAppExited += (s,e) => KillIcon();
             _logic.OnMenuBuilt += LogicOnMenuBuilt;
 
@@ -74,7 +77,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             Items.Add(new MenuItemViewModel
             {
                 Name = "Options",
-                Action = new RelayCommand(() => new ConfigWindow().Show()),
+                Action = new RelayCommand(StartConfigWindow),
                 IconPath = Application.Current.Resources["SimplyIconConfig"]
             });
             Items.Add(new SeparatorMenuItemViewModel());
@@ -93,6 +96,13 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             });
 
             IsVisible = true;
+        }
+
+        private void StartConfigWindow()
+        {
+            var confVm = _resolverService.Resolve<ConfigViewModel>();
+            confVm.OnInit(_logic.PluginsCatalog);
+            new ConfigWindow(confVm).Show();
         }
 
         private void OnForceMenuOpen(object sender, bool e)
