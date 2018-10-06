@@ -65,8 +65,8 @@
     <Reference Include="PresentationFramework.Aero">
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimplyAnIcon.Common, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Common.0.5.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Common, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Common.0.5.1\lib\net461\SimplyAnIcon.Common.dll</HintPath>
     </Reference>
     <Reference Include="SimplyAnIcon.Plugins, Version=0.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplyAnIcon.Plugins.0.5.4\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
