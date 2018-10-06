@@ -5,8 +5,8 @@ using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
-using SimplyAnIcon.Samples.NotifyIcon.Windows;
 using SimplyAnIcon.Common.ViewModels.Interfaces;
+using SimplyAnIcon.Common.Windows;
 using SimplyAnIcon.Plugins.Wpf.Util;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
 

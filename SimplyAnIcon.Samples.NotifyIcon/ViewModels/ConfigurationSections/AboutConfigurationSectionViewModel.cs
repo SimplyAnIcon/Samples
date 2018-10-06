@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SimplyAnIcon.Common.ViewModels.Interfaces;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections
 {

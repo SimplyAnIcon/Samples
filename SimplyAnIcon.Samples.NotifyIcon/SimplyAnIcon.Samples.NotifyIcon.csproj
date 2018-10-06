@@ -65,8 +65,8 @@
     <Reference Include="PresentationFramework.Aero">
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimplyAnIcon.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Common.0.3.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Common, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Common.0.5.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
     </Reference>
     <Reference Include="SimplyAnIcon.Plugins, Version=0.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplyAnIcon.Plugins.0.5.4\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
@@ -111,48 +111,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
-    <Compile Include="Helpers\Interfaces\IJsonHelper.cs" />
-    <Compile Include="Helpers\Interfaces\IWindowsHelper.cs" />
-    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\UnityInstanceResolverHelper.cs" />
-    <Compile Include="Helpers\WindowsHelper.cs" />
-    <Compile Include="Models\PluginSettingEntry.cs" />
     <Compile Include="Services\Interfaces\IIconLogicService.cs" />
-    <Page Include="Windows\ConfigWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppRegistrant.cs" />
-    <Compile Include="Settings\Interface\IPluginSettings.cs" />
-    <Compile Include="Settings\PluginSettings.cs" />
-    <Compile Include="ViewModels\ConfigurationItems\AbstractConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationItems\IntConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationItems\StringListConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationItems\StringConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationItems\BoolConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\SpecialWpfConfigPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\BasicConfigPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\NoConfigPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\Config\AbstractConfigPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\SpecificPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\Plugins\GeneralPluginsConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationSections\PluginsConfigurationSectionViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationSections\GeneralConfigurationSectionViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationSections\AboutConfigurationSectionViewModel.cs" />
-    <Compile Include="ViewModels\ConfigViewModel.cs" />
-    <Compile Include="ViewModels\IConfigurationSectionViewModel.cs" />
-    <Compile Include="Windows\ConfigWindow.xaml.cs">
-      <DependentUpon>ConfigWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\IconLogicService.cs" />
+    <Compile Include="ViewModels\ConfigViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -183,9 +154,7 @@
   <ItemGroup>
     <Resource Include="cool.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

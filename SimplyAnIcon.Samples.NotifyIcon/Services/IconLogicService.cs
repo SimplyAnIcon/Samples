@@ -10,10 +10,10 @@ using SimplyAnIcon.Common.Models;
 using SimplyAnIcon.Samples.NotifyIcon.Helpers;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Common.Services.Interfaces;
+using SimplyAnIcon.Common.Settings.Interface;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.Wpf.V1;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
-using SimplyAnIcon.Samples.NotifyIcon.Settings.Interface;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.Services
 {
