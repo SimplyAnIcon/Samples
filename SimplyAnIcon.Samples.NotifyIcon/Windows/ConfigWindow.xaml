@@ -30,58 +30,64 @@
                     <DataTemplate DataType="{x:Type config:AbstractConfigPluginsConfigurationSectionViewModel}">
                         <DockPanel>
                             <wpfToggleSwitch:ToggleSwitch IsChecked="{Binding IsActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Plugin Activated: " UncheckedText="" CheckedText=""/>
-                            <ContentControl Content="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsActivated, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ContentControl.Resources>
-                                    <DataTemplate DataType="{x:Type config:BasicConfigPluginsConfigurationSectionViewModel}">
-                                        <DockPanel>
-                                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Configuration" />
-                                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10" Content="Save Changes" Command="{Binding SaveCommand}" />
-                                            <ItemsControl ItemsSource="{Binding Items, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <ItemsControl.Resources>
-                                                    <DataTemplate DataType="{x:Type configurationItems:BoolConfigurationItemViewModel}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <CheckBox Margin="5" Content="{Binding Setting.Label}" IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                    <DataTemplate DataType="{x:Type configurationItems:StringConfigurationItemViewModel}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
-                                                            <TextBox Margin="5" VerticalAlignment="Center" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" MaxLength="{Binding Setting.MaximumLength}" />
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                    <DataTemplate DataType="{x:Type configurationItems:IntConfigurationItemViewModel}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
-                                                            <controls:NumericUpDown Margin="5" VerticalAlignment="Center" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="75" Minimum="{Binding Setting.Minimum}"  Maximum="{Binding Setting.Maximum}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                    <DataTemplate DataType="{x:Type configurationItems:StringListConfigurationItemViewModel}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
-                                                            <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
-                                                            <ComboBox Margin="5" VerticalAlignment="Center" ItemsSource="{Binding Setting.AvailableValues, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding Value}"/>
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-                                                            </ComboBox>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.Resources>
-                                            </ItemsControl>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type config:SpecialWpfConfigPluginsConfigurationSectionViewModel}">
-                                        <Grid />
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type config:NoConfigPluginsConfigurationSectionViewModel}">
-                                        <Grid />
-                                    </DataTemplate>
-                                </ContentControl.Resources>
-                            </ContentControl>
+                            <ScrollViewer HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ContentControl Content="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsActivated, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ContentControl.Resources>
+                                        <DataTemplate DataType="{x:Type config:BasicConfigPluginsConfigurationSectionViewModel}">
+                                            <DockPanel>
+                                                <StackPanel DockPanel.Dock="Top">
+                                                    <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Configuration" />
+                                                    <ItemsControl ItemsSource="{Binding Items, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                        <ItemsControl.Resources>
+                                                            <DataTemplate DataType="{x:Type configurationItems:BoolConfigurationItemViewModel}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <CheckBox Margin="5" Content="{Binding Setting.Label}" IsChecked="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                            <DataTemplate DataType="{x:Type configurationItems:StringConfigurationItemViewModel}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                                    <TextBox Margin="5" VerticalAlignment="Center" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" MaxLength="{Binding Setting.MaximumLength}" />
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                            <DataTemplate DataType="{x:Type configurationItems:IntConfigurationItemViewModel}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                                    <controls:NumericUpDown Margin="5" VerticalAlignment="Center" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="75" Minimum="{Binding Setting.Minimum}"  Maximum="{Binding Setting.Maximum}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                            <DataTemplate DataType="{x:Type configurationItems:StringListConfigurationItemViewModel}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text="{Binding Setting.Label}" />
+                                                                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":" />
+                                                                    <ComboBox Margin="5" VerticalAlignment="Center" ItemsSource="{Binding Setting.AvailableValues, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock Text="{Binding Value}"/>
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ItemsControl.Resources>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                                <StackPanel>
+                                                    <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10" Content="Save Changes" Command="{Binding SaveCommand}" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type config:SpecialWpfConfigPluginsConfigurationSectionViewModel}">
+                                            <Grid />
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type config:NoConfigPluginsConfigurationSectionViewModel}">
+                                            <Grid />
+                                        </DataTemplate>
+                                    </ContentControl.Resources>
+                                </ContentControl>
+                            </ScrollViewer>
                         </DockPanel>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type configurationSections:AboutConfigurationSectionViewModel}">

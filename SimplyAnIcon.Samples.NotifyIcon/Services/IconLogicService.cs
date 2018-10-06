@@ -13,6 +13,7 @@ using SimplyAnIcon.Common.Services.Interfaces;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.Wpf.V1;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
+using SimplyAnIcon.Samples.NotifyIcon.Settings.Interface;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.Services
 {
@@ -21,6 +22,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         private readonly List<ISimplyAWpfPlugin> _pluginWpfInstances = new List<ISimplyAWpfPlugin>();
         private readonly List<ISimplyAPlugin> _pluginInstances = new List<ISimplyAPlugin>();
         private readonly IPluginService _pluginService;
+        private readonly IPluginSettings _pluginSettings;
 
         public PluginCatalog PluginsCatalog => new PluginCatalog
         {
@@ -31,9 +33,10 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         public event EventHandler<IEnumerable<MenuItemViewModel>> OnMenuBuilt = delegate { };
         public event EventHandler OnAppExited = delegate { };
 
-        public IconLogicService(IPluginService pluginService)
+        public IconLogicService(IPluginService pluginService, IPluginSettings pluginSettings)
         {
             _pluginService = pluginService;
+            _pluginSettings = pluginSettings;
         }
 
         public void UpdateIcon()
@@ -61,7 +64,14 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
                 .AddAssemblyPrefix("IconeIA.Core");
 
             var plugins = _pluginService.LoadPlugins(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins"), new UnityInstanceResolverHelper(), registrantBuilder);
-            
+
+            var settings = _pluginSettings.GetPlugins().ToArray();
+            foreach (var plugin in plugins.PluginInstances.Concat(plugins.PluginWpfInstances))
+            {
+                if (!settings.Any(x => x.Name.Equals(plugin.Name, StringComparison.InvariantCultureIgnoreCase)))
+                    _pluginSettings.AddPlugin(plugin.Name);
+            }
+
             _pluginInstances.Clear();
             _pluginInstances.AddRange(plugins.PluginInstances);
 
@@ -69,9 +79,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             _pluginWpfInstances.AddRange(plugins.PluginWpfInstances);
 
             foreach (var resourceDictionary in _pluginWpfInstances.SelectMany(x => x.ResourceDictionaries))
-            {
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            }
 
             _pluginInstances.ForEach(x => x.OnInit());
             _pluginWpfInstances.ForEach(x => x.OnInit());

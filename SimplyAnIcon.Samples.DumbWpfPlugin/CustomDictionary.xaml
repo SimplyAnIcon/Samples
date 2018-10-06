@@ -1,10 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:dumbWpfPlugin="clr-namespace:SimplyAnIcon.Samples.DumbWpfPlugin"
+                    xmlns:resources="clr-namespace:SimplyAnIcon.Plugins.Wpf.Resources;assembly=SimplyAnIcon.Plugins.Wpf"
                     x:Class="SimplyAnIcon.Samples.DumbWpfPlugin.CustomDictionary">
+    <ResourceDictionary.MergedDictionaries>
+        <resources:SimplyMenuResources />
+    </ResourceDictionary.MergedDictionaries>
     <!-- ReSharper disable InconsistentNaming -->
     <BitmapImage x:Key="icon_dumb" UriSource="/SimplyAnIcon.Samples.DumbWpfPlugin;component/dumb.png" />
-    
+
+
+    <Style TargetType="{x:Type MenuItem}" x:Key="DumbSelectableMenuItemStyle" BasedOn="{StaticResource SimplyAMenuItemStyle}">
+        <Setter Property="Background" Value="Bisque"/>
+    </Style>
+
     <DataTemplate DataType="{x:Type dumbWpfPlugin:AddingSelectableMenuItem}">
         <DockPanel>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">

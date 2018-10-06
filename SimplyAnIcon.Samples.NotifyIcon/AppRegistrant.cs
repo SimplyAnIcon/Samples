@@ -3,6 +3,10 @@ using SimplyAnIcon.Samples.NotifyIcon.Services;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Samples.NotifyIcon.ViewModels;
 using SimplyAnIcon.Common.ViewModels.Interfaces;
+using SimplyAnIcon.Samples.NotifyIcon.Helpers;
+using SimplyAnIcon.Samples.NotifyIcon.Helpers.Interfaces;
+using SimplyAnIcon.Samples.NotifyIcon.Settings;
+using SimplyAnIcon.Samples.NotifyIcon.Settings.Interface;
 
 namespace SimplyAnIcon.Samples.NotifyIcon
 {
@@ -12,7 +16,16 @@ namespace SimplyAnIcon.Samples.NotifyIcon
         {
             RegisterViewModels();
             RegisterServices();
+            RegisterHelpers();
+            RegisterSettings();
         }
+
+        private void RegisterHelpers()
+        {
+            Register<IWindowsHelper, WindowsHelper>();
+            Register<IJsonHelper, JsonHelper>();
+        }
+
         private void RegisterViewModels()
         {
             Register<ISimplyAnIconViewModel, NotifyIconViewModel>();
@@ -20,6 +33,10 @@ namespace SimplyAnIcon.Samples.NotifyIcon
         private void RegisterServices()
         {
             Register<IIconLogicService, IconLogicService>();
+        }
+        private void RegisterSettings()
+        {
+            Register<IPluginSettings, PluginSettings>();
         }
     }
 }

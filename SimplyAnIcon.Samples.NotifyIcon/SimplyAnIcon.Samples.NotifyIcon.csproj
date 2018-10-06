@@ -59,17 +59,20 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero">
       <Private>True</Private>
     </Reference>
     <Reference Include="SimplyAnIcon.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplyAnIcon.Common.0.3.0\lib\net461\SimplyAnIcon.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.0.5.0\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Plugins, Version=0.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.0.5.4\lib\net461\SimplyAnIcon.Plugins.dll</HintPath>
     </Reference>
-    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.5.0\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
+    <Reference Include="SimplyAnIcon.Plugins.Wpf, Version=0.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimplyAnIcon.Plugins.Wpf.0.5.4\lib\net461\SimplyAnIcon.Plugins.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -109,7 +112,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
+    <Compile Include="Helpers\Interfaces\IJsonHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IWindowsHelper.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\UnityInstanceResolverHelper.cs" />
+    <Compile Include="Helpers\WindowsHelper.cs" />
+    <Compile Include="Models\PluginSettingEntry.cs" />
     <Compile Include="Services\Interfaces\IIconLogicService.cs" />
     <Page Include="Windows\ConfigWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +128,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppRegistrant.cs" />
+    <Compile Include="Settings\Interface\IPluginSettings.cs" />
+    <Compile Include="Settings\PluginSettings.cs" />
     <Compile Include="ViewModels\ConfigurationItems\AbstractConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationItems\IntConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationItems\StringListConfigurationItemViewModel.cs" />

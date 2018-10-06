@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.V1.Settings;
 using SimplyAnIcon.Plugins.Wpf.Util;
+using SimplyAnIcon.Samples.NotifyIcon.Settings.Interface;
 using SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationItems;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugins.Config
@@ -28,7 +29,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections.Plugi
 
         public FastObservableCollection<AbstractConfigurationItemViewModel> Items { get; } = new FastObservableCollection<AbstractConfigurationItemViewModel>();
 
-        public BasicConfigPluginsConfigurationSectionViewModel(IResolverService resolverService)
+        public BasicConfigPluginsConfigurationSectionViewModel(IResolverService resolverService, IPluginSettings pluginSettings) : base(pluginSettings)
         {
             _resolverService = resolverService;
         }
