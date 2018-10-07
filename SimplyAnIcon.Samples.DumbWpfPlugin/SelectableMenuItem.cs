@@ -13,7 +13,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
             set => Set(ref _isSelected, value);
         }
 
-        public SelectableMenuItem()
+        public SelectableMenuItem(MenuItemViewModel parent) : base(parent)
         {
             ItemStyle = (Style)Application.Current.FindResource("DumbSelectableMenuItemStyle");
         }

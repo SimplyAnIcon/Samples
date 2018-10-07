@@ -65,30 +65,30 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             var addedList = e.ToList();
             addedList.ForEach(x => x.OnForceMenuOpen += OnForceMenuOpen);
             Items.AddItems(addedList);
-            Items.Add(new SeparatorMenuItemViewModel());
+            Items.Add(new SeparatorMenuItemViewModel(null));
 
-            Items.Add(new MenuItemViewModel
+            Items.Add(new MenuItemViewModel(null)
             {
                 Name = "Update",
                 Action = new RelayCommand(UpdateIcon),
                 IconPath = Application.Current.Resources["SimplyIconUpdate"]
             });
 
-            Items.Add(new MenuItemViewModel
+            Items.Add(new MenuItemViewModel(null)
             {
                 Name = "Options",
                 Action = new RelayCommand(StartConfigWindow),
                 IconPath = Application.Current.Resources["SimplyIconConfig"]
             });
-            Items.Add(new SeparatorMenuItemViewModel());
+            Items.Add(new SeparatorMenuItemViewModel(null));
             
-            Items.Add(new MenuItemViewModel
+            Items.Add(new MenuItemViewModel(null)
             {
                 Name = "Restart",
                 Action = new RelayCommand(_logic.Restart),
                 IconPath = Application.Current.Resources["SimplyIconRestart"]
             });
-            Items.Add(new MenuItemViewModel
+            Items.Add(new MenuItemViewModel(null)
             {
                 Name = "Exit",
                 Action = new RelayCommand(KillIcon),

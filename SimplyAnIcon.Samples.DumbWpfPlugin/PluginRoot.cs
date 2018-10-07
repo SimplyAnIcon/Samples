@@ -24,29 +24,29 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
 
         public void OnInit()
         {
-            _menuItems = new MenuItemViewModel
+            _menuItems = new MenuItemViewModel(null)
             {
                 Name = "Dumb Items",
-                Children = {new SeparatorMenuItemViewModel()},
+                Children = {new SeparatorMenuItemViewModel(null) },
                 IconPath = Application.Current.Resources["icon_dumb"]
             };
-            _menuAction = new MenuItemViewModel
+            _menuAction = new MenuItemViewModel(null)
             {
                 Name = "Dumb Actions",
                 IconPath = Application.Current.Resources["icon_dumb"],
                 Children =
                 {
-                    new MenuItemViewModel
+                    new MenuItemViewModel(null)
                     {
                         Name = "Add To Top",
                         StaysOpenOnClick = true,
-                        Action = new RelayCommand(() => _menuItems.Children.Insert(0, new SelectableMenuItem
+                        Action = new RelayCommand(() => _menuItems.Children.Insert(0, new SelectableMenuItem(null)
                         {
                             Name = $"Dummy #{_currentDumb++:00}"
                         })),
                         IconPath = Application.Current.Resources["icon_dumb"]
                     },
-                    new MenuItemViewModel
+                    new MenuItemViewModel(null)
                     {
                         Name = "Select Top",
                         StaysOpenOnClick = true,
@@ -57,35 +57,35 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
                         }, () => _menuItems.Children.First() is SelectableMenuItem),
                         IconPath = Application.Current.Resources["icon_dumb"]
                     },
-                    new MenuItemViewModel
+                    new MenuItemViewModel(null)
                     {
                         Name = "Remove Top",
                         StaysOpenOnClick = true,
                         Action = new RelayCommand(() => _menuItems.Children.Remove(_menuItems.Children.First()), () => _menuItems.Children.First() is SelectableMenuItem),
                         IconPath = Application.Current.Resources["icon_dumb"]
                     },
-                    new SeparatorMenuItemViewModel(),
-                    new AddingSelectableMenuItem(
-                        s => _menuItems.Children.Insert(0, new SelectableMenuItem
+                    new SeparatorMenuItemViewModel(null),
+                    new AddingSelectableMenuItem(null,
+                        s => _menuItems.Children.Insert(0, new SelectableMenuItem(null)
                         {
                             Name = s
                         }),
-                        s => _menuItems.Children.Add(new SelectableMenuItem
+                        s => _menuItems.Children.Add(new SelectableMenuItem(null)
                         {
                             Name = s
                         })),
-                    new SeparatorMenuItemViewModel(),
-                    new MenuItemViewModel
+                    new SeparatorMenuItemViewModel(null),
+                    new MenuItemViewModel(null)
                     {
                         Name = "Add To Bottom",
                         StaysOpenOnClick = true,
-                        Action = new RelayCommand(() => _menuItems.Children.Add(new SelectableMenuItem
+                        Action = new RelayCommand(() => _menuItems.Children.Add(new SelectableMenuItem(null)
                         {
                             Name = $"Dummy #{_currentDumb++:00}"
                         })),
                         IconPath = Application.Current.Resources["icon_dumb"]
                     },
-                    new MenuItemViewModel
+                    new MenuItemViewModel(null)
                     {
                         Name = "Select Bottom",
                         StaysOpenOnClick = true,
@@ -96,7 +96,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
                         }, () => _menuItems.Children.Last() is SelectableMenuItem),
                         IconPath = Application.Current.Resources["icon_dumb"]
                     },
-                    new MenuItemViewModel
+                    new MenuItemViewModel(null)
                     {
                         Name = "Remove Bottom",
                         StaysOpenOnClick = true,

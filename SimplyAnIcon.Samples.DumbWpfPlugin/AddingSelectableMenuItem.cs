@@ -32,7 +32,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
             Text = "";
         }, () => !string.IsNullOrWhiteSpace(_text)));
 
-        public AddingSelectableMenuItem(Action<string> fctAddTop, Action<string> fctAddBottom)
+        public AddingSelectableMenuItem(MenuItemViewModel parent, Action<string> fctAddTop, Action<string> fctAddBottom) : base(parent)
         {
             _fctAddTop = fctAddTop;
             _fctAddBottom = fctAddBottom;

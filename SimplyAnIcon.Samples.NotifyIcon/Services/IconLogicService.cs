@@ -71,7 +71,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
                 if (first)
                     first = false;
                 else
-                    items.Add(new SeparatorMenuItemViewModel());
+                    items.Add(new SeparatorMenuItemViewModel(null));
                 items.AddRange(it.ToList());
             }
 
