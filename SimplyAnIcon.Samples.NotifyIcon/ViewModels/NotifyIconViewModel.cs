@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Windows;
 using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using Com.Ericmas001.Mvvm;
+using Com.Ericmas001.Mvvm.Collections;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Common.ViewModels.Interfaces;
 using SimplyAnIcon.Common.Windows;
-using SimplyAnIcon.Plugins.Wpf.Util;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
@@ -54,7 +53,6 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         private void UpdateIcon()
         {
             IsVisible = false;
-            Items.ToList().ForEach(x => x.OnForceMenuOpen -= OnForceMenuOpen);
             Items.Clear();
 
             _logic.UpdateIcon();
@@ -63,7 +61,6 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         private void LogicOnMenuBuilt(object sender, IEnumerable<MenuItemViewModel> e)
         {
             var addedList = e.ToList();
-            addedList.ForEach(x => x.OnForceMenuOpen += OnForceMenuOpen);
             Items.AddItems(addedList);
             Items.Add(new SeparatorMenuItemViewModel(null));
 
@@ -102,7 +99,9 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         {
             var confVm = _resolverService.Resolve<ConfigViewModel>();
             confVm.OnInit(_logic.PluginsCatalog);
-            new ConfigWindow(confVm).Show();
+            var window = new ConfigWindow(confVm);
+            window.Closed += (sender, args) => UpdateIcon();
+            window.Show();
         }
 
         private void OnForceMenuOpen(object sender, bool e)

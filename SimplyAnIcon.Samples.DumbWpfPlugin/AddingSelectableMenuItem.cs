@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.CommandWpf;
+using Com.Ericmas001.Mvvm;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
 
 namespace SimplyAnIcon.Samples.DumbWpfPlugin

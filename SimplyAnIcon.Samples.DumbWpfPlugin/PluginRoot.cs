@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using GalaSoft.MvvmLight.CommandWpf;
+using Com.Ericmas001.Mvvm;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.V1.Settings;
 using SimplyAnIcon.Plugins.Wpf.V1;
