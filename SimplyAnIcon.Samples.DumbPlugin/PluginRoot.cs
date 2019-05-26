@@ -19,7 +19,7 @@ namespace SimplyAnIcon.Samples.DumbPlugin
             {"BoolValue1", true  }
         };
 
-        public void OnInit()
+        public void OnInit(Dictionary<string, object> config)
         {
         }
 

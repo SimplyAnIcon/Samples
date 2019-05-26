@@ -22,7 +22,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
         private MenuItemViewModel _menuItems;
         private int _currentDumb;
 
-        public void OnInit()
+        public void OnInit(Dictionary<string, object> config)
         {
             _menuItems = new MenuItemViewModel(null)
             {

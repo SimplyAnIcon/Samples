@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
 using Com.Ericmas001.Mvvm;
 using Com.Ericmas001.Mvvm.Collections;
-using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Common.ViewModels.Interfaces;
 using SimplyAnIcon.Common.Windows;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
+using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 {
@@ -17,6 +18,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         private readonly IIconLogicService _logic;
         private readonly IResolverService _resolverService;
         private bool _stayOpen;
+        private List<MenuItemViewModel> _permanentBottomItems;
 
         public FastObservableCollection<MenuItemViewModel> Items { get; } = new FastObservableCollection<MenuItemViewModel>();
         public bool IsVisible
@@ -44,54 +46,54 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
         {
             _logic = logic;
             _resolverService = resolverService;
-            _logic.OnAppExited += (s,e) => KillIcon();
-            _logic.OnMenuBuilt += LogicOnMenuBuilt;
 
-            UpdateIcon();
+            _permanentBottomItems = new List<MenuItemViewModel>
+            {
+                new SeparatorMenuItemViewModel(null),
+                new MenuItemViewModel(null)
+                {
+                    Name = "Update",
+                    Action = new RelayCommand(async () => await UpdateIcon()),
+                    IconPath = Application.Current.Resources["SimplyIconUpdate"]
+                },
+                new MenuItemViewModel(null)
+                {
+                    Name = "Options",
+                    Action = new RelayCommand(StartConfigWindow),
+                    IconPath = Application.Current.Resources["SimplyIconConfig"]
+                },
+                new SeparatorMenuItemViewModel(null),
+                new MenuItemViewModel(null)
+                {
+                    Name = "Restart",
+                    Action = new RelayCommand(_logic.Restart),
+                    IconPath = Application.Current.Resources["SimplyIconRestart"]
+                },
+                new MenuItemViewModel(null)
+                {
+                    Name = "Exit",
+                    Action = new RelayCommand(KillIcon),
+                    IconPath = Application.Current.Resources["SimplyIconExit"]
+                }
+            };
+
+            _logic.OnAppExited += (s, e) => KillIcon();
+        }
+        public async Task LoadIcon()
+        {
+            await UpdateIcon();
         }
 
-        private void UpdateIcon()
+        private async Task UpdateIcon()
         {
             IsVisible = false;
+
+            var newItems = await _logic.UpdateIcon();
+
             Items.Clear();
-
-            _logic.UpdateIcon();
-        }
-
-        private void LogicOnMenuBuilt(object sender, IEnumerable<MenuItemViewModel> e)
-        {
-            var addedList = e.ToList();
+            var addedList = newItems.ToList();
             Items.AddItems(addedList);
-            Items.Add(new SeparatorMenuItemViewModel(null));
-
-            Items.Add(new MenuItemViewModel(null)
-            {
-                Name = "Update",
-                Action = new RelayCommand(UpdateIcon),
-                IconPath = Application.Current.Resources["SimplyIconUpdate"]
-            });
-
-            Items.Add(new MenuItemViewModel(null)
-            {
-                Name = "Options",
-                Action = new RelayCommand(StartConfigWindow),
-                IconPath = Application.Current.Resources["SimplyIconConfig"]
-            });
-            Items.Add(new SeparatorMenuItemViewModel(null));
-            
-            Items.Add(new MenuItemViewModel(null)
-            {
-                Name = "Restart",
-                Action = new RelayCommand(_logic.Restart),
-                IconPath = Application.Current.Resources["SimplyIconRestart"]
-            });
-            Items.Add(new MenuItemViewModel(null)
-            {
-                Name = "Exit",
-                Action = new RelayCommand(KillIcon),
-                IconPath = Application.Current.Resources["SimplyIconExit"]
-            });
-
+            Items.AddItems(_permanentBottomItems);
             IsVisible = true;
         }
 
@@ -100,7 +102,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             var confVm = _resolverService.Resolve<ConfigViewModel>();
             confVm.OnInit(_logic.PluginsCatalog);
             var window = new ConfigWindow(confVm);
-            window.Closed += (sender, args) => UpdateIcon();
+            window.Closed += async (sender, args) => await UpdateIcon();
             window.Show();
         }
 

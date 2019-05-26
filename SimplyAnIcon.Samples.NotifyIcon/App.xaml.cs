@@ -11,22 +11,26 @@ namespace SimplyAnIcon.Samples.NotifyIcon
     {
         private TaskbarIcon _notifyIcon;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             var container = new UnityContainer();
-            
+
             new RegistrantFinderBuilder()
                 .AddAssemblyPrefix("SimplyAnIcon.Common")
                 .AddAssemblyPrefix("SimplyAnIcon.Samples")
                 .Build()
                 .GetAllRegistrations()
                 .RegisterTypes(container);
-            
-            _notifyIcon = (TaskbarIcon) FindResource("NotifyIcon");
-            if(_notifyIcon != null)
-                _notifyIcon.DataContext = container.Resolve<ISimplyAnIconViewModel>();
+
+            _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon");
+            if (_notifyIcon != null)
+            {
+                var vm = container.Resolve<ISimplyAnIconViewModel>();
+                await vm.LoadIcon();
+                _notifyIcon.DataContext = vm;
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)
