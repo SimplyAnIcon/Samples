@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.V1.Settings;
 
@@ -11,7 +9,7 @@ namespace SimplyAnIcon.Samples.DumbPlugin
     {
         public string Name => "DumbPlugin";
         public string Description => "I'm Dumb !";
-        public Version Version => new Version(0,0,0,42);
+        public Version Version => new Version(0, 0, 0, 42);
 
         public Dictionary<string, object> Settings { get; } = new Dictionary<string, object>
         {
@@ -31,7 +29,7 @@ namespace SimplyAnIcon.Samples.DumbPlugin
 
         public void OnDispose()
         {
-            MessageBox.Show("These are the saved settings: " + Environment.NewLine + string.Join(Environment.NewLine, Settings.Select(x => x.Key + ": " + x.Value.ToString())),"Dumby", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //MessageBox.Show("These are the saved settings: " + Environment.NewLine + string.Join(Environment.NewLine, Settings.Select(x => x.Key + ": " + x.Value.ToString())),"Dumby", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         IEnumerable<AbstractSettingValue> ISimplyAPlugin.ConfigurationItems => new AbstractSettingValue[]
@@ -53,8 +51,8 @@ namespace SimplyAnIcon.Samples.DumbPlugin
             new IntSettingValue("IntValue1", "Some dumb number")
             {
                 Minimum = 21, Maximum = 84
-            }, 
-            new BoolSettingValue("BoolValue1", "Some dumb bool"), 
+            },
+            new BoolSettingValue("BoolValue1", "Some dumb bool"),
         };
 
         public object GetConfigurationValue(string key)

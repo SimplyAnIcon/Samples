@@ -15,7 +15,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
     {
         public string Name => "Dumb Wpf Plugin";
         public string Description => "I'm a Dumb Wpf Plugin";
-        public Version Version => new Version(0,0,0,42);
+        public Version Version => new Version(0, 0, 0, 42);
 
         IEnumerable<AbstractSettingValue> ISimplyAPlugin.ConfigurationItems => new List<AbstractSettingValue>();
         private MenuItemViewModel _menuAction;
@@ -27,7 +27,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
             _menuItems = new MenuItemViewModel(null)
             {
                 Name = "Dumb Items",
-                Children = {new SeparatorMenuItemViewModel(null) },
+                Children = { new SeparatorMenuItemViewModel(null) },
                 IconPath = Application.Current.Resources["icon_dumb"]
             };
             _menuAction = new MenuItemViewModel(null)
@@ -114,7 +114,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
         public void OnDispose()
         {
         }
-        
+
         public object GetConfigurationValue(string key)
         {
             throw new NotImplementedException();
@@ -132,7 +132,16 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
 
         public UserControl CustomConfigControl => null;
 
-        public IEnumerable<MenuItemViewModel> MenuItems => new[] {_menuAction, _menuItems};
-        public IEnumerable<ResourceDictionary> ResourceDictionaries => new[] {new CustomDictionary()};
+        public IEnumerable<MenuItemViewModel> MenuItems => new[] {
+            _menuAction,
+            _menuItems,
+            new MenuItemViewModel(null)
+            {
+                Name = "Dumb Click",
+                StaysOpenOnClick = true,
+                IconPath = Application.Current.Resources["icon_dumb"]
+            }
+        };
+        public IEnumerable<ResourceDictionary> ResourceDictionaries => new[] { new CustomDictionary() };
     }
 }
