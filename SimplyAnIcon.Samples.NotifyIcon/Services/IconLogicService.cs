@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Com.Ericmas001.DependencyInjection.RegistrantFinders;
+using SimplyAnIcon.Common.Helpers.Interfaces;
 using SimplyAnIcon.Common.Models;
 using SimplyAnIcon.Common.Services.Interfaces;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
@@ -18,14 +19,16 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
     public class IconLogicService : IIconLogicService
     {
         private readonly IPluginService _pluginService;
+        private readonly IPluginBasicConfigHelper _pluginBasicConfigHelper;
 
         public PluginCatalog PluginsCatalog { get; private set; }
 
         public event EventHandler OnAppExited = delegate { };
 
-        public IconLogicService(IPluginService pluginService)
+        public IconLogicService(IPluginService pluginService, IPluginBasicConfigHelper pluginBasicConfigHelper)
         {
             _pluginService = pluginService;
+            _pluginBasicConfigHelper = pluginBasicConfigHelper;
         }
 
         public async Task<IEnumerable<MenuItemViewModel>> UpdateIcon()
@@ -62,8 +65,8 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
 
             var config = new Dictionary<string, object>();
 
-            PluginsCatalog.ActiveBackgroungPlugins.ToList().ForEach(x => x.OnInit(config));
-            PluginsCatalog.ActiveForegroundPlugins.ToList().ForEach(x => x.OnInit(config));
+            PluginsCatalog.ActiveBackgroungPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
+            PluginsCatalog.ActiveForegroundPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
         }
 
         private IEnumerable<MenuItemViewModel> BuildMenu()
