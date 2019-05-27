@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SimplyAnIcon.Plugins.V1;
 using SimplyAnIcon.Plugins.V1.Settings;
 
@@ -19,17 +20,29 @@ namespace SimplyAnIcon.Samples.DumbPlugin
             {"BoolValue1", true  }
         };
 
-        public void OnInit(Dictionary<string, object> config)
-        {
-        }
-
         public void OnRefresh()
         {
         }
 
+        public void OnInit(Dictionary<string, object> config)
+        {
+            Trace.WriteLine("Init " + Name);
+        }
+
+        public void OnActivation()
+        {
+            Trace.WriteLine("Activating " + Name);
+        }
+
+        public void OnDeactivation()
+        {
+            Trace.WriteLine("Deactivating " + Name);
+        }
+
         public void OnDispose()
         {
-            //MessageBox.Show("These are the saved settings: " + Environment.NewLine + string.Join(Environment.NewLine, Settings.Select(x => x.Key + ": " + x.Value.ToString())),"Dumby", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
+            Trace.WriteLine("Disposing " + Name);
         }
 
         IEnumerable<AbstractSettingValue> ISimplyAPlugin.ConfigurationItems => new AbstractSettingValue[]

@@ -16,7 +16,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             IconSource = "/cool.ico";
         }
 
-        protected override IEnumerable<IConfigurationSectionViewModel> GenerateSections(PluginCatalog catalog)
+        protected override IEnumerable<IConfigurationSectionViewModel> GenerateSections(IEnumerable<PluginInfo> catalog)
         {
             yield return _resolverService.Resolve<GeneralConfigurationSectionViewModel>();
 

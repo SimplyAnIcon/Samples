@@ -21,7 +21,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         private readonly IPluginService _pluginService;
         private readonly IPluginBasicConfigHelper _pluginBasicConfigHelper;
 
-        public PluginCatalog PluginsCatalog { get; private set; }
+        public IEnumerable<PluginInfo> PluginsCatalog { get; private set; }
 
         public event EventHandler OnAppExited = delegate { };
 
@@ -34,8 +34,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         public async Task<IEnumerable<MenuItemViewModel>> UpdateIcon()
         {
             LoadPlugins();
-            PluginsCatalog.ActiveBackgroungPlugins.ToList().ForEach(x => x.OnRefresh());
-            PluginsCatalog.ActiveForegroundPlugins.ToList().ForEach(x => x.OnRefresh());
+            PluginsCatalog.Where(x => x.IsActivated).ToList().ForEach(x => x.Plugin.OnRefresh());
 
             return await Task.Run(() =>
             {
@@ -50,8 +49,8 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
 
         public void OnDispose()
         {
-            PluginsCatalog.ActiveBackgroungPlugins.ToList().ForEach(x => x.OnDispose());
-            PluginsCatalog.ActiveForegroundPlugins.ToList().ForEach(x => x.OnDispose());
+            PluginsCatalog.Where(x => x.IsActivated).ToList().ForEach(x => x.Plugin.OnDeactivation());
+            PluginsCatalog.ToList().ForEach(x => x.Plugin.OnDispose());
         }
         private void LoadPlugins()
         {
@@ -62,21 +61,19 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             if (!Directory.Exists(pluginPath))
                 Directory.CreateDirectory(pluginPath);
 
-            PluginsCatalog = _pluginService.LoadPlugins(PluginsCatalog, new[] { pluginPath }, new UnityInstanceResolverHelper(), registrantBuilder);
+            PluginsCatalog = _pluginService.LoadPlugins(PluginsCatalog, new[] { pluginPath }, new UnityInstanceResolverHelper(), registrantBuilder, _pluginBasicConfigHelper.GetForcedPlugins());
 
-            foreach (var resourceDictionary in PluginsCatalog.NewActiveForegroundPlugins.SelectMany(x => x.ResourceDictionaries))
+            foreach (var resourceDictionary in PluginsCatalog.Where(x => x.IsNew && x.IsForeground).SelectMany(x => x.ForegroundPlugin.ResourceDictionaries))
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-            var config = new Dictionary<string, object>();
-
-            PluginsCatalog.NewActiveBackgroungPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
-            PluginsCatalog.NewActiveForegroundPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
+            foreach (var plugin in PluginsCatalog.Where(x => x.IsNew && x.IsActivated))
+                plugin.Plugin.OnActivation();
         }
 
         private IEnumerable<MenuItemViewModel> BuildMenu()
         {
             var items = new List<MenuItemViewModel>();
-            var itemsOfPlugin = PluginsCatalog.ActiveForegroundPlugins.Select(x => x.MenuItems).ToList();
+            var itemsOfPlugin = PluginsCatalog.Where(x => x.IsActivated && x.IsForeground).Select(x => x.ForegroundPlugin.MenuItems).ToList();
             var first = true;
             foreach (var it in itemsOfPlugin)
             {

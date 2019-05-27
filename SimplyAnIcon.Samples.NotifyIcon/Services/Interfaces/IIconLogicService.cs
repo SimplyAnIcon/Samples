@@ -10,7 +10,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces
     {
         event EventHandler OnAppExited;
 
-        PluginCatalog PluginsCatalog { get; }
+        IEnumerable<PluginInfo> PluginsCatalog { get; }
 
         Task<IEnumerable<MenuItemViewModel>> UpdateIcon();
 

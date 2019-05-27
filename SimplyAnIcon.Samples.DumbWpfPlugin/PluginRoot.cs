@@ -24,6 +24,10 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
 
         public void OnInit(Dictionary<string, object> config)
         {
+        }
+
+        public void OnActivation()
+        {
             _menuItems = new MenuItemViewModel(null)
             {
                 Name = "Dumb Items",
@@ -105,6 +109,10 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
                     }
                 }
             };
+        }
+
+        public void OnDeactivation()
+        {
         }
 
         public void OnRefresh()
