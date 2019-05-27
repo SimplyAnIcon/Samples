@@ -49,13 +49,12 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
 
         public void OnDispose()
         {
-            PluginsCatalog.Where(x => x.IsActivated).ToList().ForEach(x => x.Plugin.OnDeactivation());
-            PluginsCatalog.ToList().ForEach(x => x.Plugin.OnDispose());
+            _pluginService.DisposePlugins(PluginsCatalog);
         }
         private void LoadPlugins()
         {
             var registrantBuilder = new RegistrantFinderBuilder()
-                .AddAssemblyPrefix("IconeIA.Core");
+                .AddAssemblyPrefix("SimplyAnIcon");
 
             var pluginPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins");
             if (!Directory.Exists(pluginPath))
@@ -66,8 +65,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             foreach (var resourceDictionary in PluginsCatalog.Where(x => x.IsNew && x.IsForeground).SelectMany(x => x.ForegroundPlugin.ResourceDictionaries))
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-            foreach (var plugin in PluginsCatalog.Where(x => x.IsNew && x.IsActivated))
-                plugin.Plugin.OnActivation();
+            _pluginService.ActivateNewPlugins(PluginsCatalog);
         }
 
         private IEnumerable<MenuItemViewModel> BuildMenu()
