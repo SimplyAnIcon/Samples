@@ -58,15 +58,15 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             var registrantBuilder = new RegistrantFinderBuilder()
                 .AddAssemblyPrefix("IconeIA.Core");
 
-            PluginsCatalog = _pluginService.LoadPlugins(new[] { Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins") }, new UnityInstanceResolverHelper(), registrantBuilder);
+            PluginsCatalog = _pluginService.LoadPlugins(PluginsCatalog, new[] { Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins") }, new UnityInstanceResolverHelper(), registrantBuilder);
 
-            foreach (var resourceDictionary in PluginsCatalog.ActiveForegroundPlugins.SelectMany(x => x.ResourceDictionaries))
+            foreach (var resourceDictionary in PluginsCatalog.NewActiveForegroundPlugins.SelectMany(x => x.ResourceDictionaries))
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
             var config = new Dictionary<string, object>();
 
-            PluginsCatalog.ActiveBackgroungPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
-            PluginsCatalog.ActiveForegroundPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
+            PluginsCatalog.NewActiveBackgroungPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
+            PluginsCatalog.NewActiveForegroundPlugins.ToList().ForEach(x => x.OnInit(_pluginBasicConfigHelper.GetPluginBasicConfig()));
         }
 
         private IEnumerable<MenuItemViewModel> BuildMenu()
