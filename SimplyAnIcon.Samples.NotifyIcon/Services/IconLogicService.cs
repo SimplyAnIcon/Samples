@@ -58,7 +58,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             var registrantBuilder = new RegistrantFinderBuilder()
                 .AddAssemblyPrefix("IconeIA.Core");
 
-            PluginsCatalog = _pluginService.LoadPlugins(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins"), new UnityInstanceResolverHelper(), registrantBuilder);
+            PluginsCatalog = _pluginService.LoadPlugins(new[] { Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins") }, new UnityInstanceResolverHelper(), registrantBuilder);
 
             foreach (var resourceDictionary in PluginsCatalog.ActiveForegroundPlugins.SelectMany(x => x.ResourceDictionaries))
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
