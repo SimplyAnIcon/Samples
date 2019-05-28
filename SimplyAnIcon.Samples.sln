@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B584AB92-EE40-4E83-ABEC-B8DD6F47796D}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +15,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyAnIcon.Samples.DumbWpfPlugin", "SimplyAnIcon.Samples.DumbWpfPlugin\SimplyAnIcon.Samples.DumbWpfPlugin.csproj", "{CEC3ADA5-06E2-4347-BB75-C2B6B82CDA3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyAnIcon.Samples.NotifyIcon", "SimplyAnIcon.Samples.NotifyIcon\SimplyAnIcon.Samples.NotifyIcon.csproj", "{B7325E0E-F433-4A78-8C47-FE43D0E2D77F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CEC3ADA5-06E2-4347-BB75-C2B6B82CDA3B} = {CEC3ADA5-06E2-4347-BB75-C2B6B82CDA3B}
+		{020140F7-E4AD-4D8F-B72D-ECDE9716D573} = {020140F7-E4AD-4D8F-B72D-ECDE9716D573}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

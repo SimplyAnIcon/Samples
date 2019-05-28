@@ -20,6 +20,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
         IEnumerable<AbstractSettingValue> ISimplyAPlugin.ConfigurationItems => new List<AbstractSettingValue>();
         private MenuItemViewModel _menuAction;
         private MenuItemViewModel _menuItems;
+        private MenuItemViewModel _menuGhost;
         private int _currentDumb;
 
         public void OnInit(Dictionary<string, object> config)
@@ -109,6 +110,14 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
                     }
                 }
             };
+            _menuGhost = new MenuItemViewModel(null)
+            {
+                Name = "Ghost Item",
+                StaysOpenOnClick = true,
+                IconPath = Application.Current.Resources["icon_dumb"],
+                Action = new RelayCommand(() => _menuGhost.IsVisible = false)
+
+            };
         }
 
         public void OnDeactivation()
@@ -143,12 +152,7 @@ namespace SimplyAnIcon.Samples.DumbWpfPlugin
         public IEnumerable<MenuItemViewModel> MenuItems => new[] {
             _menuAction,
             _menuItems,
-            new MenuItemViewModel(null)
-            {
-                Name = "Dumb Click",
-                StaysOpenOnClick = true,
-                IconPath = Application.Current.Resources["icon_dumb"]
-            }
+            _menuGhost
         };
         public IEnumerable<ResourceDictionary> ResourceDictionaries => new[] { new CustomDictionary() };
     }
