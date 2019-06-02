@@ -5,8 +5,8 @@ using System.Windows;
 using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
 using Com.Ericmas001.Mvvm;
 using Com.Ericmas001.Mvvm.Collections;
-using SimplyAnIcon.Common.ViewModels.Interfaces;
-using SimplyAnIcon.Common.Windows;
+using SimplyAnIcon.Core.ViewModels.Interfaces;
+using SimplyAnIcon.Core.Windows;
 using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 

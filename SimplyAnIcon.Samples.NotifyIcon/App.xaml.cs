@@ -2,7 +2,7 @@
 using Com.Ericmas001.DependencyInjection.RegistrantFinders;
 using Com.Ericmas001.DependencyInjection.Unity;
 using Hardcodet.Wpf.TaskbarNotification;
-using SimplyAnIcon.Common.ViewModels.Interfaces;
+using SimplyAnIcon.Core.ViewModels.Interfaces;
 using Unity;
 
 namespace SimplyAnIcon.Samples.NotifyIcon
@@ -18,8 +18,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon
             var container = new UnityContainer();
 
             new RegistrantFinderBuilder()
-                .AddAssemblyPrefix("SimplyAnIcon.Common")
-                .AddAssemblyPrefix("SimplyAnIcon.Samples")
+                .AddAssemblyPrefix("SimplyAnIcon")
                 .Build()
                 .GetAllRegistrations()
                 .RegisterTypes(container);

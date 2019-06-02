@@ -1,7 +1,7 @@
 ﻿<Application x:Class="SimplyAnIcon.Samples.NotifyIcon.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:resources="clr-namespace:SimplyAnIcon.Common.Resources;assembly=SimplyAnIcon.Common"
+             xmlns:resources="clr-namespace:SimplyAnIcon.Core.Resources;assembly=SimplyAnIcon.Core"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <!--

@@ -1,8 +1,8 @@
 ﻿using Com.Ericmas001.DependencyInjection.Registrants;
+using SimplyAnIcon.Core.ViewModels.Interfaces;
 using SimplyAnIcon.Samples.NotifyIcon.Services;
 using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 using SimplyAnIcon.Samples.NotifyIcon.ViewModels;
-using SimplyAnIcon.Common.ViewModels.Interfaces;
 
 namespace SimplyAnIcon.Samples.NotifyIcon
 {

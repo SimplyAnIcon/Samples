@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Com.Ericmas001.DependencyInjection.RegisteredElements.Interface;
 using Com.Ericmas001.DependencyInjection.Unity;
-using SimplyAnIcon.Common.Helpers.Interfaces;
+using SimplyAnIcon.Core.Helpers.Interfaces;
 using Unity;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.Helpers

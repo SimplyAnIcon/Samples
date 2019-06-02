@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
-using SimplyAnIcon.Common.Models;
-using SimplyAnIcon.Common.ViewModels;
-using SimplyAnIcon.Common.ViewModels.Interfaces;
+using SimplyAnIcon.Core.Models;
+using SimplyAnIcon.Core.ViewModels;
+using SimplyAnIcon.Core.ViewModels.Interfaces;
 using SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
