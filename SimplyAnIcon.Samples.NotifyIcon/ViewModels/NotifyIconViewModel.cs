@@ -14,10 +14,13 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 {
     public class NotifyIconViewModel : ViewModelBase, ISimplyAnIconViewModel
     {
+        private bool _isUpdating;
         private bool _isVisible;
         private readonly IIconLogicService _logic;
         private readonly IResolverService _resolverService;
         private bool _stayOpen;
+        private ConfigWindow _configWindow;
+
         private List<MenuItemViewModel> _permanentBottomItems;
 
         public FastObservableCollection<MenuItemViewModel> Items { get; } = new FastObservableCollection<MenuItemViewModel>();
@@ -49,68 +52,106 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 
             _permanentBottomItems = new List<MenuItemViewModel>
             {
-                new SeparatorMenuItemViewModel(null),
-                new MenuItemViewModel(null)
-                {
-                    Name = "Update",
-                    Action = new RelayCommand(async () => await UpdateIcon()),
-                    IconPath = Application.Current.Resources["SimplyIconUpdate"]
-                },
+                new SeparatorMenuItemViewModel(null)
+            };
+            _permanentBottomItems.Add(
+                    new MenuItemViewModel(null)
+                    {
+                        Name = "Update",
+                        Action = new RelayCommand(async () => await UpdateIcon()),
+                        IconPath = Application.Current.Resources["SimplyIconUpdate"]
+                    });
+            _permanentBottomItems.Add(
                 new MenuItemViewModel(null)
                 {
                     Name = "Options",
                     Action = new RelayCommand(StartConfigWindow),
                     IconPath = Application.Current.Resources["SimplyIconConfig"]
-                },
-                new SeparatorMenuItemViewModel(null),
+                });
+            _permanentBottomItems.Add(new SeparatorMenuItemViewModel(null));
+            _permanentBottomItems.Add(
                 new MenuItemViewModel(null)
                 {
                     Name = "Restart",
                     Action = new RelayCommand(_logic.Restart),
                     IconPath = Application.Current.Resources["SimplyIconRestart"]
-                },
+                });
+            _permanentBottomItems.Add(
                 new MenuItemViewModel(null)
                 {
                     Name = "Exit",
                     Action = new RelayCommand(KillIcon),
                     IconPath = Application.Current.Resources["SimplyIconExit"]
-                }
-            };
+                });
 
             _logic.OnAppExited += (s, e) => KillIcon();
         }
+
         public async Task LoadIcon()
         {
             await UpdateIcon();
         }
 
-        private async Task UpdateIcon()
+        public async Task UpdateIcon()
         {
+            if (_isUpdating)
+                return;
+
+            _isUpdating = true;
             IsVisible = false;
 
-            var newItems = await _logic.UpdateIcon();
+            try
+            {
+                var newItems = await _logic.UpdateIcon();
 
-            Items.Clear();
-            var addedList = newItems.ToList();
-            Items.AddItems(addedList);
-            Items.AddItems(_permanentBottomItems);
-            IsVisible = true;
+                Items.Clear();
+                var addedList = newItems.ToList();
+                Items.AddItems(addedList);
+                Items.AddItems(_permanentBottomItems);
+            }
+            finally
+            {
+                IsVisible = true;
+                _isUpdating = false;
+            }
         }
 
         private void StartConfigWindow()
         {
+            if (_configWindow != null)
+            {
+                _configWindow.Topmost = true;
+                _configWindow.Activate();
+                _configWindow.Focus();
+                _configWindow.Topmost = false;
+                return;
+            }
+
             var confVm = _resolverService.Resolve<ConfigViewModel>();
             confVm.OnInit(_logic.PluginsCatalog);
-            var window = new ConfigWindow(confVm);
-            window.Closed += async (sender, args) => await UpdateIcon();
-            window.Show();
+            _configWindow = new ConfigWindow(confVm);
+            _configWindow.Closed += async (sender, args) =>
+            {
+                _configWindow = null;
+                await UpdateIcon();
+            };
+            _configWindow.Width = 1024;
+            _configWindow.Height = 768;
+            _configWindow.Show();
         }
 
         private void KillIcon()
         {
-            IsVisible = false;
-            _logic.OnDispose();
-            Application.Current.Shutdown();
+            try
+            {
+                IsVisible = false;
+                _logic?.OnDispose();
+            }
+            catch
+            {
+                //do nothing
+            }
+            Application.Current?.Shutdown();
         }
     }
 }
