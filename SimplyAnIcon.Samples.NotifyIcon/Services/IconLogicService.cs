@@ -43,6 +43,7 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
         }
         public void Restart()
         {
+            // ReSharper disable once PossibleNullReferenceException
             Process.Start(Assembly.GetEntryAssembly().Location);
             OnAppExited(this, new EventArgs());
         }
@@ -56,16 +57,18 @@ namespace SimplyAnIcon.Samples.NotifyIcon.Services
             var registrantBuilder = new RegistrantFinderBuilder()
                 .AddAssemblyPrefix("SimplyAnIcon");
 
+            // ReSharper disable once PossibleNullReferenceException AssignNullToNotNullAttribute
             var pluginPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Plugins");
             if (!Directory.Exists(pluginPath))
                 Directory.CreateDirectory(pluginPath);
 
             PluginsCatalog = _pluginService.LoadPlugins(PluginsCatalog, new[] { pluginPath }, new UnityInstanceResolverHelper(), registrantBuilder, _pluginBasicConfigHelper.GetForcedPlugins());
+            var currentCatalog = PluginsCatalog.ToArray();
 
-            foreach (var resourceDictionary in PluginsCatalog.Where(x => x.IsNew && x.IsForeground).SelectMany(x => x.ForegroundPlugin.ResourceDictionaries))
+            foreach (var resourceDictionary in currentCatalog.Where(x => x.IsNew && x.IsForeground).SelectMany(x => x.ForegroundPlugin.ResourceDictionaries))
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-            _pluginService.ActivateNewPlugins(PluginsCatalog);
+            _pluginService.ActivateNewPlugins(currentCatalog);
         }
 
         private IEnumerable<MenuItemViewModel> BuildMenu()

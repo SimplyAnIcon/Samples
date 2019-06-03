@@ -10,6 +10,7 @@
     <BitmapImage x:Key="icon_dumb" UriSource="/SimplyAnIcon.Samples.DumbWpfPlugin;component/dumb.png" />
 
 
+    <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
     <Style TargetType="{x:Type MenuItem}" x:Key="DumbSelectableMenuItemStyle" BasedOn="{StaticResource SimplyAMenuItemStyle}">
         <Setter Property="Background" Value="Bisque"/>
     </Style>

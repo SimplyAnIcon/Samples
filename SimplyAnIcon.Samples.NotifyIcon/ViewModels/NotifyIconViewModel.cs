@@ -106,11 +106,6 @@ namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
             window.Show();
         }
 
-        private void OnForceMenuOpen(object sender, bool e)
-        {
-            StayOpen = e;
-        }
-
         private void KillIcon()
         {
             IsVisible = false;
