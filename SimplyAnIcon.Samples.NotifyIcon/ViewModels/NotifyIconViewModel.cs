@@ -1,157 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Com.Ericmas001.DependencyInjection.Resolvers.Interfaces;
-using Com.Ericmas001.Mvvm;
-using Com.Ericmas001.Mvvm.Collections;
+﻿using SimplyAnIcon.Core.Helpers.Interfaces;
+using SimplyAnIcon.Core.Services.Interfaces;
+using SimplyAnIcon.Core.ViewModels;
 using SimplyAnIcon.Core.ViewModels.Interfaces;
-using SimplyAnIcon.Core.Windows;
-using SimplyAnIcon.Plugins.Wpf.V1.MenuItemViewModels;
-using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 {
-    public class NotifyIconViewModel : ViewModelBase, ISimplyAnIconViewModel
+    public class NotifyIconViewModel : AbstractNotifyIconViewModel
     {
-        private bool _isUpdating;
-        private bool _isVisible;
-        private readonly IIconLogicService _logic;
-        private readonly IResolverService _resolverService;
-        private bool _stayOpen;
-        private ConfigWindow _configWindow;
+        public override string IconSource => "/cool.ico";
+        public override string IconName => IsVisible ? "SimplyAnIcon" : "SimplyAnIcon (Updating ...)";
 
-        private List<MenuItemViewModel> _permanentBottomItems;
-
-        public FastObservableCollection<MenuItemViewModel> Items { get; } = new FastObservableCollection<MenuItemViewModel>();
-        public bool IsVisible
+        public NotifyIconViewModel(IIconLogicService logic, IViewModelFactory viewModelFactory, IIconConfigHelper iconConfigHelper)
+            : base(logic, viewModelFactory, iconConfigHelper)
         {
-            get => _isVisible;
-            set
-            {
-                Set(ref _isVisible, value);
-                RaisePropertyChanged(nameof(IconSource));
-                RaisePropertyChanged(nameof(IconName));
-                RaisePropertyChanged(nameof(Items));
-            }
-        }
-
-        public string IconSource => "/cool.ico";
-        public string IconName => IsVisible ? "SimplyAnIcon" : "SimplyAnIcon (Updating ...)";
-
-        public bool StayOpen
-        {
-            get => _stayOpen;
-            set => Set(ref _stayOpen, value);
-        }
-
-        public NotifyIconViewModel(IIconLogicService logic, IResolverService resolverService)
-        {
-            _logic = logic;
-            _resolverService = resolverService;
-
-            _permanentBottomItems = new List<MenuItemViewModel>
-            {
-                new SeparatorMenuItemViewModel(null)
-            };
-            _permanentBottomItems.Add(
-                    new MenuItemViewModel(null)
-                    {
-                        Name = "Update",
-                        Action = new RelayCommand(async () => await UpdateIcon()),
-                        IconPath = Application.Current.Resources["SimplyIconUpdate"]
-                    });
-            _permanentBottomItems.Add(
-                new MenuItemViewModel(null)
-                {
-                    Name = "Options",
-                    Action = new RelayCommand(StartConfigWindow),
-                    IconPath = Application.Current.Resources["SimplyIconConfig"]
-                });
-            _permanentBottomItems.Add(new SeparatorMenuItemViewModel(null));
-            _permanentBottomItems.Add(
-                new MenuItemViewModel(null)
-                {
-                    Name = "Restart",
-                    Action = new RelayCommand(_logic.Restart),
-                    IconPath = Application.Current.Resources["SimplyIconRestart"]
-                });
-            _permanentBottomItems.Add(
-                new MenuItemViewModel(null)
-                {
-                    Name = "Exit",
-                    Action = new RelayCommand(KillIcon),
-                    IconPath = Application.Current.Resources["SimplyIconExit"]
-                });
-
-            _logic.OnAppExited += (s, e) => KillIcon();
-        }
-
-        public async Task LoadIcon()
-        {
-            await UpdateIcon();
-        }
-
-        public async Task UpdateIcon()
-        {
-            if (_isUpdating)
-                return;
-
-            _isUpdating = true;
-            IsVisible = false;
-
-            try
-            {
-                var newItems = await _logic.UpdateIcon();
-
-                Items.Clear();
-                var addedList = newItems.ToList();
-                Items.AddItems(addedList);
-                Items.AddItems(_permanentBottomItems);
-            }
-            finally
-            {
-                IsVisible = true;
-                _isUpdating = false;
-            }
-        }
-
-        private void StartConfigWindow()
-        {
-            if (_configWindow != null)
-            {
-                _configWindow.Topmost = true;
-                _configWindow.Activate();
-                _configWindow.Focus();
-                _configWindow.Topmost = false;
-                return;
-            }
-
-            var confVm = _resolverService.Resolve<ConfigViewModel>();
-            confVm.OnInit(_logic.PluginsCatalog);
-            _configWindow = new ConfigWindow(confVm);
-            _configWindow.Closed += async (sender, args) =>
-            {
-                _configWindow = null;
-                await UpdateIcon();
-            };
-            _configWindow.Width = 1024;
-            _configWindow.Height = 768;
-            _configWindow.Show();
-        }
-
-        private void KillIcon()
-        {
-            try
-            {
-                IsVisible = false;
-                _logic?.OnDispose();
-            }
-            catch
-            {
-                //do nothing
-            }
-            Application.Current?.Shutdown();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Com.Ericmas001.DependencyInjection.Registrants;
+using SimplyAnIcon.Core.Helpers.Interfaces;
 using SimplyAnIcon.Core.ViewModels.Interfaces;
-using SimplyAnIcon.Samples.NotifyIcon.Services;
-using SimplyAnIcon.Samples.NotifyIcon.Services.Interfaces;
+using SimplyAnIcon.Samples.NotifyIcon.Helpers;
 using SimplyAnIcon.Samples.NotifyIcon.ViewModels;
 
 namespace SimplyAnIcon.Samples.NotifyIcon
@@ -10,17 +10,19 @@ namespace SimplyAnIcon.Samples.NotifyIcon
     {
         protected override void RegisterEverything()
         {
+            RegisterHelpers();
             RegisterViewModels();
-            RegisterServices();
+        }
+
+        private void RegisterHelpers()
+        {
+            Register<IInstanceResolverHelper, UnityInstanceResolverHelper>();
         }
 
         private void RegisterViewModels()
         {
             Register<ISimplyAnIconViewModel, NotifyIconViewModel>();
-        }
-        private void RegisterServices()
-        {
-            Register<IIconLogicService, IconLogicService>();
+            Register<IConfigViewModel, ConfigViewModel>();
         }
     }
 }

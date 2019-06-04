@@ -7,7 +7,7 @@ using SimplyAnIcon.Samples.NotifyIcon.ViewModels.ConfigurationSections;
 
 namespace SimplyAnIcon.Samples.NotifyIcon.ViewModels
 {
-    public class ConfigViewModel : AbstractConfigViewModel
+    public class ConfigViewModel : BasicConfigViewModel
     {
         private readonly IResolverService _resolverService;
         public ConfigViewModel(IResolverService resolverService) : base(resolverService)
